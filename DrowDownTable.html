@@ -1,0 +1,186 @@
+<HTML>
+<HEAD>
+	<TITLE>THE SOIL CALCULATOR</TITLE>
+	
+	<STYLE>
+		body {
+   			background-color: lightblue;
+		}
+		#form {
+			text-align: center;
+		}
+		#h2 {
+			text-align: left;
+		}
+		#h3 {
+			text-align: left;
+		}
+		#dataTable {
+			text-align: center;
+			table-layout: center;
+		}
+	</STYLE>
+
+	<SCRIPT language="javascript">
+
+		function addRow(tableID) {
+			var table = document.getElementById(tableID);
+			var rowCount = table.rows.length;
+			var row = table.insertRow(rowCount);
+
+			var colCount = table.rows[0].cells.length;
+
+			for(var i=0; i<colCount; i++) {
+
+				var newcell	= row.insertCell(i);
+
+				newcell.innerHTML = table.rows[0].cells[i].innerHTML;
+				switch(newcell.childNodes[0].type) {
+					case "text":
+							newcell.childNodes[0].value = "";
+							break;
+					case "checkbox":
+							newcell.childNodes[0].checked = false;
+							break;
+					case "select-one":
+							newcell.childNodes[0].selectedIndex = 0;
+							break;
+				}
+			}
+		}
+
+		function deleteRow(tableID) {
+			try {
+			var table = document.getElementById(tableID);
+			var rowCount = table.rows.length;
+
+			for(var i=0; i<rowCount; i++) {
+				var row = table.rows[i];
+				var chkbox = row.cells[0].childNodes[0];
+				if(null != chkbox && true == chkbox.checked) {
+					if(rowCount <= 1) {
+						alert("Cannot delete all the rows.");
+						break;
+					}
+					table.deleteRow(i);
+					rowCount--;
+					i--;
+				}
+
+
+			}
+			}catch(e) {
+				alert(e);
+			}
+		}
+
+
+		function calculate(tableID) {
+    		var table = document.getElementById(tableID);
+			var rows = table.rows.length;
+			var totalparts = 0;
+			var parts = 0;
+			var perpart = 0;
+			var converted = [];
+    		for (i=0; i < rows; i++) {
+    			var cell = table.rows[i].cells[1];
+    			var parts = cell.childNodes[0].value;
+    			if (parts.length>1) {
+    				//parse
+    				document.getElementById("tparts").innerHTML = parts;
+    			}
+    			totalparts = totalparts + parseInt(parts);
+    		}
+    		var upp = document.getElementById("amount").value;
+    		perpart = parseInt(upp)/totalparts;
+
+    		for (i=0; i < rows; i++) {
+    			var parts = table.rows[i].cells[1].firstChild.value;
+    			converted[i] = (parseInt(parts)*perpart).toFixed(2);
+    		}
+
+    		document.getElementById("parts").innerHTML = "YOU NEED: <br>\n";
+    		var units = document.getElementById("units").value;
+    		
+    		if(units=="Gallons") {
+    			units="Quarts";
+    			for (i=0; i < rows; i++) {
+    			converted[i] = converted[i]*4;
+    			}
+    		}
+    		for (i=0; i<rows; i++) {
+    			document.getElementById("parts").innerHTML += converted[i] + " " + String(units) + " of " + table.rows[i].cells[2].children[0].value + "<br>\n";
+    		}
+    	}
+
+	</SCRIPT>
+</HEAD>
+<BODY>
+	<form id="form">
+	<div><h1>THE OFFICIAL SOIL CALCULATOR</h1></div>
+	<br>
+	<div><h2 id='h2'>HOW TO USE:</h2>
+	
+	<h3 id='h3'>1. Input the amount of soil you need and select the units. If you're using a container, the volume should be listed somewhere on it, and if you're using a raised bed, the volume should be on the packaging. <br>2. Click 'add ingredient' until you have a row for each ingredient in your soil recipe. To delete a row, simply select the checkbox for that row and press 'delete ingredient'. <br>3. Next, input the number of parts for each ingredient.<br>4. When you're finished, click the calculate button, and you'll find out exactly you much you need of each ingredient.</h3></div>
+
+	<div>
+		<p>
+			How much soil do you need?<br>
+			<INPUT id="amount" type="text" name="amount" value=""/>
+			<SELECT id="units" name="Units">
+					<OPTION value="Gallons">Gallons</OPTION>
+					<OPTION value="Cubic Feet">Cubic Feet</OPTION>
+					<OPTION value="Quarts">Quarts</OPTION>
+				</SELECT>
+			<br>
+		</p>
+	</div>
+
+	<div>
+	<INPUT id="button" type="button" value="Add Ingredient" onclick="addRow('dataTable')" />
+
+	<INPUT id="button" type="button" value="Delete Ingredient" onclick="deleteRow('dataTable')" />
+	</div>
+
+	<TABLE id="dataTable" width="350px" border="1" align="center">
+		<TR>
+			<TD><INPUT type="checkbox" name="chk"/></TD>
+			<TD><INPUT type="text" name="txt" size="6"/> Parts</TD>
+			<TD>
+				<SELECT name="Ingredient">
+					<OPTION value="Potting Soil">Potting Soil</OPTION>
+					<OPTION value="Perlite">Perlite</OPTION>
+					<OPTION value="Peat Moss">Peat Moss</OPTION>
+					<OPTION value="Topsoil">Topsoil</OPTION>
+					<OPTION value="Sand">Sand</OPTION>
+					<OPTION value="Compost">Compost</OPTION>
+					<OPTION value="Vermiculite">Vermiculite</OPTION>
+					<OPTION value="Coconut Coir">Coconut Coir</OPTION>
+					<OPTION value="Bonemeal">Bonemeal</OPTION>
+					<OPTION value="Bloodmeal">Bloodmeal</OPTION>
+					<OPTION value="Kelp Meal">Kelp Meal</OPTION>
+					<OPTION value="Fish Meal">Fish Meal</OPTION>
+					<OPTION value="Plant Meal">Plant Meal</OPTION>
+					<OPTION value="Lime">Lime</OPTION>
+					<OPTION value="Phosphate">Phosphate</OPTION>
+					<OPTION value="Gypsum">Gypsum</OPTION>
+					<OPTION value="Potassium">Potassium</OPTION>
+					<OPTION value="Loam">Loam</OPTION>
+					<OPTION value="Phumus">Peat Humus</OPTION>
+					<OPTION value="Kenaf">Kenaf</OPTION>
+					<OPTION value="Manure">Manure</OPTION>
+					<OPTION value="Worm Castings">Worm Castings</OPTION>
+					<OPTION value="Leaf Mold">Leaf Mold</OPTION>
+				</SELECT>
+			</TD>
+		</TR>
+	</TABLE>
+
+	<p>
+	<input id="button" type="button" onclick= "calculate('dataTable')" value="CALCULATE">  
+	</p>
+
+	<p id="parts"></p>
+	<p id="tparts"></p>
+	</form>
+
