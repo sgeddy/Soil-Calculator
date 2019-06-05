@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 	<TITLE>THE SOIL CALCULATOR</TITLE>
-	
+
 	<STYLE>
 		body {
    			background-color: lightblue;
@@ -20,107 +20,13 @@
 			table-layout: center;
 		}
 	</STYLE>
-
-	<SCRIPT language="javascript">
-
-		function addRow(tableID) {
-			var table = document.getElementById(tableID);
-			var rowCount = table.rows.length;
-			var row = table.insertRow(rowCount);
-
-			var colCount = table.rows[0].cells.length;
-
-			for(var i=0; i<colCount; i++) {
-
-				var newcell	= row.insertCell(i);
-
-				newcell.innerHTML = table.rows[0].cells[i].innerHTML;
-				switch(newcell.childNodes[0].type) {
-					case "text":
-							newcell.childNodes[0].value = "";
-							break;
-					case "checkbox":
-							newcell.childNodes[0].checked = false;
-							break;
-					case "select-one":
-							newcell.childNodes[0].selectedIndex = 0;
-							break;
-				}
-			}
-		}
-
-		function deleteRow(tableID) {
-			try {
-			var table = document.getElementById(tableID);
-			var rowCount = table.rows.length;
-
-			for(var i=0; i<rowCount; i++) {
-				var row = table.rows[i];
-				var chkbox = row.cells[0].childNodes[0];
-				if(null != chkbox && true == chkbox.checked) {
-					if(rowCount <= 1) {
-						alert("Cannot delete all the rows.");
-						break;
-					}
-					table.deleteRow(i);
-					rowCount--;
-					i--;
-				}
-
-
-			}
-			}catch(e) {
-				alert(e);
-			}
-		}
-
-
-		function calculate(tableID) {
-    		var table = document.getElementById(tableID);
-			var rows = table.rows.length;
-			var totalparts = 0;
-			var parts = 0;
-			var perpart = 0;
-			var converted = [];
-    		for (i=0; i < rows; i++) {
-    			var cell = table.rows[i].cells[1];
-    			var parts = cell.childNodes[0].value;
-    			if (parts.length>1) {
-    				//parse
-    				document.getElementById("tparts").innerHTML = parts;
-    			}
-    			totalparts = totalparts + parseInt(parts);
-    		}
-    		var upp = document.getElementById("amount").value;
-    		perpart = parseInt(upp)/totalparts;
-
-    		for (i=0; i < rows; i++) {
-    			var parts = table.rows[i].cells[1].firstChild.value;
-    			converted[i] = (parseInt(parts)*perpart).toFixed(2);
-    		}
-
-    		document.getElementById("parts").innerHTML = "YOU NEED: <br>\n";
-    		var units = document.getElementById("units").value;
-    		
-    		if(units=="Gallons") {
-    			units="Quarts";
-    			for (i=0; i < rows; i++) {
-    			converted[i] = converted[i]*4;
-    			}
-    		}
-    		for (i=0; i<rows; i++) {
-    			document.getElementById("parts").innerHTML += converted[i] + " " + String(units) + " of " + table.rows[i].cells[2].children[0].value + "<br>\n";
-    		}
-    	}
-
-	</SCRIPT>
 </HEAD>
 <BODY>
 	<form id="form">
 	<div><h1>THE OFFICIAL SOIL CALCULATOR</h1></div>
 	<br>
 	<div><h2 id='h2'>HOW TO USE:</h2>
-	
+
 	<h3 id='h3'>1. Input the amount of soil you need and select the units. If you're using a container, the volume should be listed somewhere on it, and if you're using a raised bed, the volume should be on the packaging. <br>2. Click 'add ingredient' until you have a row for each ingredient in your soil recipe. To delete a row, simply select the checkbox for that row and press 'delete ingredient'. <br>3. Next, input the number of parts for each ingredient.<br>4. When you're finished, click the calculate button, and you'll find out exactly you much you need of each ingredient.</h3></div>
 
 	<div>
@@ -177,11 +83,14 @@
 	</TABLE>
 
 	<p>
-	<input id="button" type="button" onclick= "calculate('dataTable')" value="CALCULATE">  
+	<input id="button" type="button" onclick= "calculate('dataTable')" value="CALCULATE">
 	</p>
 
 	<p id="parts"></p>
 	<p id="tparts"></p>
 	</form>
-	</body>
-	</html>
+
+	<script src="js/calculate.js"></script>
+
+</body>
+</html>
