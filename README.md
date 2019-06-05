@@ -2,7 +2,7 @@
 
 As any gardener knows, having the right soil is vital to any successful plant growth. After learning of several different soil recipes, I discovered most of them were listed as ratios, or in parts. Calculating how much of each ingredient is needed takes time and is error prone, so I built this tool to do it for us.
 
-You can also view this tool on my personal website at samueleddy.com/garden-tools
+You can also view this tool on my personal website at https://www.samueleddy.com/garden-tools
 
 HOW TO USE:
 1. Input the amount of soil you need and select the units. If you're using a container, the volume should be listed somewhere on it, and if you're using a raised bed, the volume should be on the packaging. 
